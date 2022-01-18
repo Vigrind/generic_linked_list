@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * @enum _bool
@@ -23,10 +24,11 @@ typedef struct generic_node{
 typedef struct function_list{
 	Node *(*newNode)(void*,size_t);
 	void (*insertAtFront)(Node**,Node**,Node*,size_t*);
+	void (*insertAtBack)(Node**,Node**,Node*,size_t*);
 	void *(*top)(const Node*);
-	void (*delete)(Node**,Node**);
+	void (*delete)(Node**,Node**,size_t*);
 	void (*print)(Node*, void (*f_yprint)(const void*));
-	void (*searchNDelete)(Node**, Node**, void*, size_t);
+	void (*searchNDelete)(Node**, Node**, void*, size_t,size_t*);
 }function;
 
 typedef struct generic_list{
@@ -37,20 +39,22 @@ typedef struct generic_list{
 }List;
 
 #define _insertAtFront(curr,node) curr->fun->insertAtFront(&curr->head,&curr->tail,node,&curr->size)
+#define _insertAtBack(curr,node) curr->fun->insertAtBack(&curr->head,&curr->tail,node,&curr->size)
 #define _newNode(curr,elem) curr->fun->newNode(&elem,sizeof(elem))
 #define _top(curr) curr->fun->top(curr->head);
-#define _delete(curr) curr->fun->delete(&curr->head,&curr->tail);
+#define _delete(curr) curr->fun->delete(&curr->head,&curr->tail,&curr->size);
 #define _print(curr,func) curr->fun->print(curr->head,func);
-#define _searchNDelete(curr,elem) curr->fun->searchNDelete(&curr->head,&curr->tail,&elem,sizeof(elem))
+#define _searchNDelete(curr,elem) curr->fun->searchNDelete(&curr->head,&curr->tail,&elem,sizeof(elem),&curr->size)
 
-Node *listNewNode(void *_data, size_t _data_size);
-void listInsertAtFront(Node **_top, Node **_tail, Node *_node, size_t *size);
-void *listTop(const Node *_top);
-void listDelete(Node **_top, Node **_tail);
-void listSearchNDelete(Node **_top, Node **_tail, void *_data, size_t _size);
-void listPrintNode(Node* _top, void (*your_print)(const void *));
-void listInsertAtBack(Node **_top, Node **_tail, Node *_node, size_t *size);
-bool equalData(const void* _curr, const void* _data,size_t _d_size);
+void my_move(void* _dst, const void* _src, size_t _size);
+Node *list_new_node(void *_data, size_t _data_size);
+void list_insert_at_front(Node **_top, Node **_tail, Node *_node, size_t *_size);
+void list_insert_at_back(Node **_top, Node **_tail, Node *_node, size_t *_size);
+void *list_top(const Node *_top);
+void list_delete(Node **_top, Node **_tail, size_t *_lsize);
+void list_search_delete(Node **_top, Node **_tail, void *_data, size_t _size, size_t* _lsize);
+void list_print_node(Node* _top, void (*your_print)(const void *));
+bool equal_data(const void* _curr, const void* _data,size_t _d_size);
 
 List *newList();
 #endif

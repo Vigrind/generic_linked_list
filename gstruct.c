@@ -1,6 +1,16 @@
 #include "gstruct.h"
 
-Node *listNewNode(void *_data, size_t _data_size) {
+//Copy _src to _dst, 1 byte at step
+void my_move(void* _dst, const void* _src, size_t _size) {
+	//__uint8_t size is 1 byte (8 bit)
+	__uint8_t *t_data = (__uint8_t*)_dst;
+	__uint8_t *o_data = (__uint8_t*)_src;
+	for (size_t offset = 0; offset < _size; ++offset) {
+		t_data[offset] = o_data[offset];
+	}
+}
+
+Node *list_new_node(void *_data, size_t _data_size) {
 	Node *newPtr = (Node *)malloc(sizeof(Node));
 	if(newPtr == NULL) {
 		fprintf(stderr,"No memory aviable\n");
@@ -9,25 +19,19 @@ Node *listNewNode(void *_data, size_t _data_size) {
 	newPtr->data = malloc(_data_size);
 	newPtr->nextPtr = NULL;
 	newPtr->prevPtr = NULL;
-
-	//Copy _data to data, 1 byte at step
-	for (size_t offset = 0; offset < _data_size; ++offset) {
-		__uint8_t *t_data = (__uint8_t*)newPtr->data;
-		__uint8_t *o_data = (__uint8_t*)_data;
-		t_data[offset] = o_data[offset];
-	}
-	// memmove(newPtr->data,_data,_data_size); //we can use also memmove
+	my_move(newPtr->data,_data,_data_size);
+	//memmove(newPtr->data,_data,_data_size); //we can use also memmove
 
 	return newPtr;
 }
 
-void listInsertAtFront(Node **_top, Node** _tail ,Node *_node, size_t *size) {
+void list_insert_at_front(Node **_top, Node** _tail ,Node *_node, size_t *_size) {
 	_node->prevPtr = NULL;
 	_node->nextPtr = *_top;
 	Node **res = *_top == NULL ? &(*_tail) : &((*_top)->prevPtr);
 	*res = _node;
 	*_top = _node;
-	++(*size);
+	++(*_size);
 
 	// if(*_top == NULL) 
 	// 	*_tail = _node;
@@ -35,7 +39,16 @@ void listInsertAtFront(Node **_top, Node** _tail ,Node *_node, size_t *size) {
 	// 	(*_top)->prevPtr = _node;
 }
 
-void *listTop(const Node *_top) {
+void list_insert_at_back(Node **_top, Node **_tail, Node *_node, size_t *_size) {
+	_node->nextPtr = NULL;
+	_node->prevPtr = *_tail;
+	Node **res = *_tail == NULL ? &(*_top) : &((*_tail)->nextPtr);
+	*res = _node;
+	*_tail = _node;
+	++(*_size);
+}
+
+void *list_top(const Node *_top) {
 	if(_top != NULL)
 		return _top->data;
 	else
@@ -43,21 +56,22 @@ void *listTop(const Node *_top) {
 	exit(EXIT_FAILURE);
 }
 
-void listSearchNDelete(Node **_top, Node **_tail, void *_data, size_t _size) {
+void list_search_delete(Node **_top, Node **_tail, void *_data, size_t _size, size_t *_lsize) {
 	while((*_top) != NULL) {
-		if(equalData((*_top)->data,_data,_size)) {
+		if(equal_data((*_top)->data,_data,_size)) {
+			--(*_lsize);
 			Node *tmp = *_top;	//node to delete
-			if(*_top == *_tail) {//control if the list have one element
+			if(!(*_top)->prevPtr && !(*_top)->nextPtr) {//control if the list have one element
 				free(tmp->data);
 				free(tmp);
 				*_top = NULL;
 				*_tail = NULL;
 				return ;
 			}
-			if((*_top)->prevPtr != NULL && (*_top)->nextPtr != NULL) {//if the element is between two node
+			if((*_top)->prevPtr  && (*_top)->nextPtr ) {//if the element is between two node
 				(*_top)->nextPtr->prevPtr = (*_top)->prevPtr;
 				(*_top)->prevPtr->nextPtr = (*_top)->nextPtr;
-			}else if((*_top)->prevPtr == NULL) {//if is the first element
+			}else if(!(*_top)->prevPtr) {//if is the first element
 				*_top = (*_top)->nextPtr;
 				(*_top)->prevPtr = NULL;
 			}else {//if is the last element
@@ -73,18 +87,18 @@ void listSearchNDelete(Node **_top, Node **_tail, void *_data, size_t _size) {
 	printf("No element is found\n");
 }
 
-bool equalData(const void* _curr, const void* _data, size_t _d_size) {
+bool equal_data(const void* _curr, const void* _data, size_t _d_size) {
+	__uint8_t *t_data = (__uint8_t*)_curr;
+	__uint8_t *o_data = (__uint8_t*)_data;
 	for (size_t offset= 0; offset < _d_size; ++offset)
 	{
-		__uint8_t *t_data = (__uint8_t*)_curr;
-		__uint8_t *o_data = (__uint8_t*)_data;
 		if(t_data[offset] != o_data[offset]) //compare byte by byte
 			return false;
 	}
 	return true;
 }
 
-void listPrintNode(Node *_top, void (*your_print)(const void *)) {
+void list_print_node(Node *_top, void (*your_print)(const void *)) {
 	while(_top != NULL) {
 		(*your_print)(_top->data);
 		_top = _top->nextPtr;
@@ -92,7 +106,7 @@ void listPrintNode(Node *_top, void (*your_print)(const void *)) {
 	printf("NULL\n");
 }
 
-void listDelete(Node **_top, Node **_tail) {
+void list_delete(Node **_top, Node **_tail, size_t *_lsize) {
 	while (*_top != NULL)
 	{
 		Node *tmp = (*_top);
@@ -101,17 +115,19 @@ void listDelete(Node **_top, Node **_tail) {
 		*_top = (*_top)->nextPtr;
 		free(tmp);				//afeter delete the node
 	}
+	*_lsize = 0;
 	*_top = NULL;
 	*_tail = NULL;
 }
 
 function _all = {
-	.newNode=&listNewNode,
-	.insertAtFront=&listInsertAtFront,
-	.top=&listTop,
-	.delete=&listDelete,
-	.print=&listPrintNode,
-	.searchNDelete=&listSearchNDelete
+	.newNode=&list_new_node,
+	.insertAtFront=&list_insert_at_front,
+	.insertAtBack=&list_insert_at_back,
+	.top=&list_top,
+	.delete=&list_delete,
+	.print=&list_print_node,
+	.searchNDelete=&list_search_delete
 };
 
 List *newList(){
