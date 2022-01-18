@@ -3,13 +3,13 @@
  * @author Vigrind
  * @date 17 jan 2022
  * 
- * This lib work great only with primitive type
- * if you use struct, pay attention to correctly determinate its structure
+ * This lib work with primitive type.
+ * If you use struct, pay attention to correctly determinate its size
 */
 
 /**
  * @def _insertAtFront
- * @brief Easy way to use pointer to function listInsertAtFront
+ * @brief Easy way to use pointer to function list_insert_at_front
  * 
  * Example:
  * @code
@@ -17,23 +17,36 @@
  * List *l = newList();
  * _insertAtFront(l,_newNode(l,example));
  * @endcode
- * @see listInsertAtFront
+ * @see list_insert_at_front
+ */
+
+ /**
+ * @def _insertAtBack
+ * @brief Easy way to use pointer to function list_insert_at_back
+ * 
+ * Example:
+ * @code
+ * int exemaple = 30;
+ * List *l = newList();
+ * _insertAtBack(l,_newNode(l,example));
+ * @endcode
+ * @see list_insert_at_back
  */
 
 /**
  * @def _searchNDelete
- * @brief Easy way to use pointer to function searchNDelete
+ * @brief Easy way to use pointer to function list_search_delete
  * 
  * Example:
  * @code
  * _searchNDelete(list,elem);
  * @endcode
- * @see searchNDelete
+ * @see list_search_delete
  */
 
 /**
  * @def _newNode
- * @brief Easy way to use pointer to a function listNewNode
+ * @brief Easy way to use pointer to a function list_new_node
  * 
  * Example:
  * @code
@@ -41,34 +54,34 @@
  * List *l = newList();
  * _insertAtFront(l,_newNode(l,example));
  * @endcode
- * @see listNewNode
+ * @see list_new_node
  */
 
 /**
  * @def _top
- * @brief Easy way to use pointer to a function listTop
+ * @brief Easy way to use pointer to a function list_top
  * 
  * Example:
  * @code
  * size_t i = *(size_t *)_top(l);
  * @endcode
- * @see listTop
+ * @see list_top
  */
 
 /**
  * @def _delete
- * @brief Easy way to use pointer to a function listDelete
+ * @brief Easy way to use pointer to a function list_delete
  * 
  * Example:
  * @code
  * _delete(l);
  * @endcode
- * @see listDelete
+ * @see list_delete
  */
 
 /**
  * @def _print
- * @brief Easy way to use pointer to a function listPrintNode
+ * @brief Easy way to use pointer to a function list_print_node
  * 
  * Example:
  * @code
@@ -77,7 +90,7 @@
  * }
  * _print(l,printInt);
  * @endcode
- * @see listPrintNode
+ * @see list_print_node
  */
 
 /**
@@ -100,7 +113,7 @@
  */
 
 /**
- * @fn Node *listNewNode(void *_data, size_t _data_size)
+ * @fn Node *list_new_node(void *_data, size_t _data_size)
  * @brief Create a new node
  * 
  * @param _data			contain the address of the value
@@ -108,34 +121,45 @@
  */
 
 /**
- * @fn void listInsertAtFront(Node **_top, Node **_tail, Node *_node, size_t *size)
+ * @fn void list_insert_at_front(Node **_top, Node **_tail, Node *_node, size_t *size)
  * @brief Insert on the Top of the list
  * 
  * @param _top		adress of the head
  * @param _tail		adress of the tail
- * @param _node		take from the result of listNewNode
+ * @param _node		take from the result of list_new_node
  * @param _size		the size of the list
- * @see listNewNode
+ * @see list_new_node
+ */
+
+ /**
+ * @fn void list_insert_at_back(Node **_top, Node **_tail, Node *_node, size_t *_size)
+ * @brief Insert on the back of the list
+ * 
+ * @param _top		adress of the head
+ * @param _tail		adress of the tail
+ * @param _node		take from the result of list_new_node
+ * @param _size		the size of the list
+ * @see list_new_node
  */
 
 /**
- * @fn void *listTop(const Node *_top)
+ * @fn void *list_top(const Node *_top)
  * @brief Return the value of top element
  * 
  * @param _top		adress of the head
  */
 
 /**
- * @fn void listDelete(Node **_top, Node **_tail)
- * @brief delete all elemet
+ * @fn void list_delete(Node **_top, Node **_tail)
+ * @brief Delete all elemet
  * 
  * @param _top		adress of the head
  * @param _tail		adress of the tail
  */
 
 /**
- * @fn void listSearchNDelete(Node **_top, Node **_tail, void *_data, size_t _size)
- * @brief delete all elemet
+ * @fn void list_search_delete(Node **_top, Node **_tail, void *_data, size_t _size)
+ * @brief Delete _data from the list
  * 
  * @param _top		adress of the head
  * @param _tail		adress of the tail
@@ -144,7 +168,7 @@
  */
 
 /**
- * @fn void listPrintNode(Node* _top, void (*your_print)(const void *))
+ * @fn void list_print_node(Node* _top, void (*your_print)(const void *))
  * @brief This function print all the element of the list
  * 
  * @param _top			adress of the head
@@ -152,7 +176,7 @@
  */
 
 /**
- * @fn bool equalData(const void* _curr, const void* _data,size_t _d_size)
+ * @fn bool equal_data(const void* _curr, const void* _data,size_t _d_size)
  * @brief See if _curr is equal to _data
  * 
  * @param _curr			adress of the current element

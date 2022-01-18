@@ -4,6 +4,7 @@
 		"g_struct.h": "c",
 		"limits": "c",
 		"type_traits": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"gstruct.h": "c"
 	}
 }
