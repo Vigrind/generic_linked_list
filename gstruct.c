@@ -6,14 +6,17 @@ Node *listNewNode(void *_data, size_t _data_size) {
 		fprintf(stderr,"No memory aviable\n");
 		exit(EXIT_FAILURE);
 	}
-	newPtr->data = malloc(sizeof(_data_size));
+	newPtr->data = malloc(_data_size);
 	newPtr->nextPtr = NULL;
 	newPtr->prevPtr = NULL;
 
 	//Copy _data to data, 1 byte at step
 	for (size_t offset = 0; offset < _data_size; ++offset) {
-		*(__uint8_t *)(newPtr->data + offset) = *(__uint8_t *)(_data + offset);
+		__uint8_t *t_data = (__uint8_t*)newPtr->data;
+		__uint8_t *o_data = (__uint8_t*)_data;
+		t_data[offset] = o_data[offset];
 	}
+	// memmove(newPtr->data,_data,_data_size); //we can use also memmove
 
 	return newPtr;
 }
@@ -21,7 +24,7 @@ Node *listNewNode(void *_data, size_t _data_size) {
 void listInsertAtFront(Node **_top, Node** _tail ,Node *_node, size_t *size) {
 	_node->prevPtr = NULL;
 	_node->nextPtr = *_top;
- 	Node **res = *_top == NULL ? &(*_tail) : &((*_top)->prevPtr);
+	Node **res = *_top == NULL ? &(*_tail) : &((*_top)->prevPtr);
 	*res = _node;
 	*_top = _node;
 	++(*size);
@@ -73,7 +76,9 @@ void listSearchNDelete(Node **_top, Node **_tail, void *_data, size_t _size) {
 bool equalData(const void* _curr, const void* _data, size_t _d_size) {
 	for (size_t offset= 0; offset < _d_size; ++offset)
 	{
-		if( *(__uint8_t *)(_curr + offset) != *(__uint8_t *)(_data + offset)) //compare byte by byte
+		__uint8_t *t_data = (__uint8_t*)_curr;
+		__uint8_t *o_data = (__uint8_t*)_data;
+		if(t_data[offset] != o_data[offset]) //compare byte by byte
 			return false;
 	}
 	return true;
@@ -106,7 +111,7 @@ function _all = {
 	.top=&listTop,
 	.delete=&listDelete,
 	.print=&listPrintNode,
-	.searchNDelete=&listSearchNDelete,
+	.searchNDelete=&listSearchNDelete
 };
 
 List *newList(){
