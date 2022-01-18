@@ -1,0 +1,166 @@
+/** 
+ * @file gstruct.h
+ * @author Vigrind
+ * @date 17 jan 2022
+ * 
+ * This lib work great only with primitive type
+ * if you use struct, pay attention to correctly determinate its structure
+*/
+
+/**
+ * @def _insertAtFront
+ * @brief Easy way to use pointer to function listInsertAtFront
+ * 
+ * Example:
+ * @code
+ * int exemaple = 30;
+ * List *l = newList();
+ * _insertAtFront(l,_newNode(l,example));
+ * @endcode
+ * @see listInsertAtFront
+ */
+
+/**
+ * @def _searchNDelete
+ * @brief Easy way to use pointer to function searchNDelete
+ * 
+ * Example:
+ * @code
+ * _searchNDelete(list,elem);
+ * @endcode
+ * @see searchNDelete
+ */
+
+/**
+ * @def _newNode
+ * @brief Easy way to use pointer to a function listNewNode
+ * 
+ * Example:
+ * @code
+ * int exemaple = 30;
+ * List *l = newList();
+ * _insertAtFront(l,_newNode(l,example));
+ * @endcode
+ * @see listNewNode
+ */
+
+/**
+ * @def _top
+ * @brief Easy way to use pointer to a function listTop
+ * 
+ * Example:
+ * @code
+ * size_t i = *(size_t *)_top(l);
+ * @endcode
+ * @see listTop
+ */
+
+/**
+ * @def _delete
+ * @brief Easy way to use pointer to a function listDelete
+ * 
+ * Example:
+ * @code
+ * _delete(l);
+ * @endcode
+ * @see listDelete
+ */
+
+/**
+ * @def _print
+ * @brief Easy way to use pointer to a function listPrintNode
+ * 
+ * Example:
+ * @code
+ * void printInt(void *_data) {
+ * 	printf("%d->",*(int *)_data)
+ * }
+ * _print(l,printInt);
+ * @endcode
+ * @see listPrintNode
+ */
+
+/**
+ * @struct function_list
+ * @brief In this struct there is a pointer to function that we can use with List
+ * @see generic_list
+ */
+
+/**
+ * @struct generic_node
+ * @brief Node of the List
+ * @see generic_list
+ */
+
+/**
+ * @struct generic_list
+ * @brief Use this struct for creating a complete list with its function
+ * @see function_list
+ * @see generic_node
+ */
+
+/**
+ * @fn Node *listNewNode(void *_data, size_t _data_size)
+ * @brief Create a new node
+ * 
+ * @param _data			contain the address of the value
+ * @param _data_size	pass the size of the value
+ */
+
+/**
+ * @fn void listInsertAtFront(Node **_top, Node **_tail, Node *_node, size_t *size)
+ * @brief Insert on the Top of the list
+ * 
+ * @param _top		adress of the head
+ * @param _tail		adress of the tail
+ * @param _node		take from the result of listNewNode
+ * @param _size		the size of the list
+ * @see listNewNode
+ */
+
+/**
+ * @fn void *listTop(const Node *_top)
+ * @brief Return the value of top element
+ * 
+ * @param _top		adress of the head
+ */
+
+/**
+ * @fn void listDelete(Node **_top, Node **_tail)
+ * @brief delete all elemet
+ * 
+ * @param _top		adress of the head
+ * @param _tail		adress of the tail
+ */
+
+/**
+ * @fn void listSearchNDelete(Node **_top, Node **_tail, void *_data, size_t _size)
+ * @brief delete all elemet
+ * 
+ * @param _top		adress of the head
+ * @param _tail		adress of the tail
+ * @param _data		adress of the element that will be compared
+ * @param _size		adress of the size of the list
+ */
+
+/**
+ * @fn void listPrintNode(Node* _top, void (*your_print)(const void *))
+ * @brief This function print all the element of the list
+ * 
+ * @param _top			adress of the head
+ * @param your_print	pointer to personalize function created by the user
+ */
+
+/**
+ * @fn bool equalData(const void* _curr, const void* _data,size_t _d_size)
+ * @brief See if _curr is equal to _data
+ * 
+ * @param _curr			adress of the current element
+ * @param _data			data to be compared with _curr
+ * @param _d_size		size of the _data
+ */
+
+/**
+ * @fn List *newList()
+ * @brief Create the List
+ */
