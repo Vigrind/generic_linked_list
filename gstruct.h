@@ -1,5 +1,5 @@
-#ifndef T_STRUCT_HPP
-#define T_STRUCT_HPP
+#ifndef G_STRUCT_HPP
+#define G_STRUCT_HPP
 
 #include <stdio.h>
 #include <stdlib.h>
