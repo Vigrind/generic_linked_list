@@ -1,4 +1,4 @@
-#include "t_gstruct.h"
+#include "gstruct.h"
 
 //Copy _src to _dst, 1 byte at step
 void my_move(void* _dst, const void* _src, size_t _size) {
