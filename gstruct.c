@@ -45,7 +45,7 @@ void list_insert_at_back(List *_list, Node *_node) {
 	Node **res = _list->tail == NULL ? &(_list->head) : &(_list->tail->nextPtr);
 	*res = _node;
 	_list->tail = _node;
-	_list->size;
+	_list->size++;
 }
 
 void list_insert_in_order(List *_list, Node *_node, bool (*compare)(const void*,const void*)) {
