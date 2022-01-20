@@ -1,4 +1,4 @@
-#include "gstruct.h"
+#include "t_gstruct.h"
 
 //Copy _src to _dst, 1 byte at step
 void my_move(void* _dst, const void* _src, size_t _size) {
@@ -20,32 +20,52 @@ Node *list_new_node(void *_data, size_t _data_size) {
 	newPtr->nextPtr = NULL;
 	newPtr->prevPtr = NULL;
 	my_move(newPtr->data,_data,_data_size);
-	//memmove(newPtr->data,_data,_data_size); //we can use also memmove
+	//memmove(newPtr->data,_data,_data_size); //we can also use memmove
 
 	return newPtr;
 }
 
-void list_insert_at_front(Node **_top, Node** _tail ,Node *_node, size_t *_size) {
+void list_insert_at_front(List *_list, Node *_node) {
 	_node->prevPtr = NULL;
-	_node->nextPtr = *_top;
-	Node **res = *_top == NULL ? &(*_tail) : &((*_top)->prevPtr);
+	_node->nextPtr = _list->head;
+	Node **res = _list->head == NULL ? &(_list->tail) : &(_list->head->prevPtr);
 	*res = _node;
-	*_top = _node;
-	++(*_size);
+	_list->head = _node;
+	_list->size++;
 
-	// if(*_top == NULL) 
-	// 	*_tail = _node;
+	// if(_list->head == NULL) 
+	// 	_list->tail = _node;
 	// else
-	// 	(*_top)->prevPtr = _node;
+	// 	(_list->head)->prevPtr = _node;
 }
 
-void list_insert_at_back(Node **_top, Node **_tail, Node *_node, size_t *_size) {
+void list_insert_at_back(List *_list, Node *_node) {
 	_node->nextPtr = NULL;
-	_node->prevPtr = *_tail;
-	Node **res = *_tail == NULL ? &(*_top) : &((*_tail)->nextPtr);
+	_node->prevPtr = _list->tail;
+	Node **res = _list->tail == NULL ? &(_list->head) : &(_list->tail->nextPtr);
 	*res = _node;
-	*_tail = _node;
-	++(*_size);
+	_list->tail = _node;
+	_list->size;
+}
+
+void list_insert_in_order(List *_list, Node *_node, bool (*compare)(const void*,const void*)) {
+	if(!_list->head) //if is the first element of the list
+		list_insert_at_front(_list,_node);
+	else {
+		Node *curr = _list->head;
+		while (curr != NULL && (*compare)(_node->data,curr->data)) {
+			curr = curr->nextPtr;
+		}
+		if(!curr) //if is the last element of the list
+			list_insert_at_back(_list,_node);
+		else { //insert between two node
+			_node->nextPtr = curr;
+			_node->prevPtr = curr->prevPtr;
+			Node **res = _list->head == curr ? &(_list->head) : &(curr->prevPtr->nextPtr); //if insert at the first element of the list
+			*res = _node;
+			curr->prevPtr = _node;
+		}
+	}
 }
 
 void *list_top(const Node *_top) {
@@ -56,46 +76,35 @@ void *list_top(const Node *_top) {
 	exit(EXIT_FAILURE);
 }
 
-void list_search_delete(Node **_top, Node **_tail, void *_data, size_t _size, size_t *_lsize) {
-	while((*_top) != NULL) {
-		if(equal_data((*_top)->data,_data,_size)) {
-			--(*_lsize);
-			Node *tmp = *_top;	//node to delete
-			if(!(*_top)->prevPtr && !(*_top)->nextPtr) {//control if the list have one element
+void list_search_delete(List *_list, void *_data, bool (*equal)(const void*, const void*)) {
+	Node *curr = _list->head;
+	while(curr != NULL) {
+		Node *next = curr->nextPtr; //save next because curr will be delete 
+		if((*equal)(curr->data,_data)) {
+			Node *tmp = curr;	//node to delete
+			_list->size--;
+			if(!curr->prevPtr && !curr->nextPtr) {//control if the list have one element
 				free(tmp->data);
 				free(tmp);
-				*_top = NULL;
-				*_tail = NULL;
+				_list->head = NULL;
+				_list->tail = NULL;
 				return ;
 			}
-			if((*_top)->prevPtr  && (*_top)->nextPtr ) {//if the element is between two node
-				(*_top)->nextPtr->prevPtr = (*_top)->prevPtr;
-				(*_top)->prevPtr->nextPtr = (*_top)->nextPtr;
-			}else if(!(*_top)->prevPtr) {//if is the first element
-				*_top = (*_top)->nextPtr;
-				(*_top)->prevPtr = NULL;
+			if(curr->prevPtr  && curr->nextPtr ) {//if the element is between two node
+				curr->nextPtr->prevPtr = curr->prevPtr;
+				curr->prevPtr->nextPtr = curr->nextPtr;
+			}else if(!curr->prevPtr) {//if is the first element
+				_list->head = curr->nextPtr;
+				curr->nextPtr->prevPtr = NULL;
 			}else {//if is the last element
-				*_tail = (*_top)->prevPtr;
-				(*_top)->prevPtr->nextPtr = NULL;
+				_list->tail = curr->prevPtr;
+				curr->prevPtr->nextPtr = NULL;
 			}
 			free(tmp->data);
 			free(tmp);
-			return;
 		}
-		_top = &(*_top)->nextPtr;
+		curr = next;
 	}
-	printf("No element is found\n");
-}
-
-bool equal_data(const void* _curr, const void* _data, size_t _d_size) {
-	__uint8_t *t_data = (__uint8_t*)_curr;
-	__uint8_t *o_data = (__uint8_t*)_data;
-	for (size_t offset= 0; offset < _d_size; ++offset)
-	{
-		if(t_data[offset] != o_data[offset]) //compare byte by byte
-			return false;
-	}
-	return true;
 }
 
 void list_print_node(Node *_top, void (*your_print)(const void *)) {
@@ -106,24 +115,25 @@ void list_print_node(Node *_top, void (*your_print)(const void *)) {
 	printf("NULL\n");
 }
 
-void list_delete(Node **_top, Node **_tail, size_t *_lsize) {
-	while (*_top != NULL)
+void list_delete(List *_list) {
+	while (_list->head != NULL)
 	{
-		Node *tmp = (*_top);
-		free((*_top)->data);	//first delete memory allocate for pointer to void
-		(*_top)->data = NULL;
-		*_top = (*_top)->nextPtr;
+		Node *tmp = (_list->head);
+		free((_list->head)->data);	//first delete memory allocate for pointer to void
+		(_list->head)->data = NULL;
+		_list->head = (_list->head)->nextPtr;
 		free(tmp);				//afeter delete the node
 	}
-	*_lsize = 0;
-	*_top = NULL;
-	*_tail = NULL;
+	_list->size = 0;
+	_list->head = NULL;
+	_list->tail = NULL;
 }
 
 function _all = {
 	.newNode=&list_new_node,
 	.insertAtFront=&list_insert_at_front,
 	.insertAtBack=&list_insert_at_back,
+	.insertInOrder=&list_insert_in_order,
 	.top=&list_top,
 	.delete=&list_delete,
 	.print=&list_print_node,
