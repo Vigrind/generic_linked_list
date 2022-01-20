@@ -22,24 +22,20 @@ typedef struct generic_node{
 }Node;
 
 typedef struct generic_list{
+	//size_t type_size;
 	size_t size;
 	Node *head;
 	Node *tail;
 }List;
 
 void my_move(void* _dst, const void* _src, size_t _size);
-
-Node *list_new_node(void *_data, size_t _data_size);
-
-void list_insert_at_front(List *_list, Node *_node);
-void list_insert_at_back(List *_list, Node *_node);
-void list_insert_in_order(List *_list, Node *_node, bool (*compare)(const void*,const void*)); //da inserire nel dock
-
-
-void list_delete(List *_list);
-void list_search_delete(List *_list, void *_data, bool (*equal)(const void*, const void*));
-
-void *list_top(const Node *_top);
-void list_print_node(Node* _top, void (*your_print)(const void *));
+Node *new_node(void *_data, size_t _data_size);
+void insert_at_front(List *_list, Node *_node);
+void insert_at_back(List *_list, Node *_node);
+void insert_in_order(List *_list, Node *_node, bool (*compare)(const void*,const void*)); //da inserire nel dock
+void delete(List *_list);
+void search_delete(List *_list, void *_data, bool (*equal)(const void*, const void*));
+void *top(const List *_list);
+void print_list(const List* head, void (*your_print)(const void *));
 List *newList();
 #endif

@@ -10,7 +10,7 @@ void my_move(void* _dst, const void* _src, size_t _size) {
 	}
 }
 
-Node *list_new_node(void *_data, size_t _data_size) {
+Node *new_node(void *_data, size_t _data_size) {
 	Node *newPtr = (Node *)malloc(sizeof(Node));
 	if(newPtr == NULL) {
 		fprintf(stderr,"No memory aviable\n");
@@ -25,7 +25,7 @@ Node *list_new_node(void *_data, size_t _data_size) {
 	return newPtr;
 }
 
-void list_insert_at_front(List *_list, Node *_node) {
+void insert_at_front(List *_list, Node *_node) {
 	_node->prevPtr = NULL;
 	_node->nextPtr = _list->head;
 	Node **res = _list->head == NULL ? &(_list->tail) : &(_list->head->prevPtr);
@@ -39,7 +39,7 @@ void list_insert_at_front(List *_list, Node *_node) {
 	// 	(_list->head)->prevPtr = _node;
 }
 
-void list_insert_at_back(List *_list, Node *_node) {
+void insert_at_back(List *_list, Node *_node) {
 	_node->nextPtr = NULL;
 	_node->prevPtr = _list->tail;
 	Node **res = _list->tail == NULL ? &(_list->head) : &(_list->tail->nextPtr);
@@ -48,16 +48,16 @@ void list_insert_at_back(List *_list, Node *_node) {
 	_list->size++;
 }
 
-void list_insert_in_order(List *_list, Node *_node, bool (*compare)(const void*,const void*)) {
+void insert_in_order(List *_list, Node *_node, bool (*compare)(const void*,const void*)) {
 	if(!_list->head) //if is the first element of the list
-		list_insert_at_front(_list,_node);
+		insert_at_front(_list,_node);
 	else {
 		Node *curr = _list->head;
 		while (curr != NULL && (*compare)(_node->data,curr->data)) {
 			curr = curr->nextPtr;
 		}
 		if(!curr) //if is the last element of the list
-			list_insert_at_back(_list,_node);
+			insert_at_back(_list,_node);
 		else { //insert between two node
 			_node->nextPtr = curr;
 			_node->prevPtr = curr->prevPtr;
@@ -68,15 +68,15 @@ void list_insert_in_order(List *_list, Node *_node, bool (*compare)(const void*,
 	}
 }
 
-void *list_top(const Node *_top) {
-	if(_top != NULL)
-		return _top->data;
+void *top(const List* _list) {
+	if(_list->head != NULL)
+		return _list->head->data;
 	else
 		fprintf(stderr,"The list is empty\n");
 	exit(EXIT_FAILURE);
 }
 
-void list_search_delete(List *_list, void *_data, bool (*equal)(const void*, const void*)) {
+void search_delete(List *_list, void *_data, bool (*equal)(const void*, const void*)) {
 	Node *curr = _list->head;
 	while(curr != NULL) {
 		Node *next = curr->nextPtr; //save next because curr will be delete 
@@ -107,15 +107,16 @@ void list_search_delete(List *_list, void *_data, bool (*equal)(const void*, con
 	}
 }
 
-void list_print_node(Node *_top, void (*your_print)(const void *)) {
-	while(_top != NULL) {
-		(*your_print)(_top->data);
-		_top = _top->nextPtr;
+void print_list(const List *_list, void (*your_print)(const void *)) {
+	Node *tmp = _list->head;
+	while(tmp != NULL) {
+		(*your_print)(tmp->data);
+		tmp = tmp->nextPtr;
 	}
 	printf("NULL\n");
 }
 
-void list_delete(List *_list) {
+void delete(List *_list) {
 	while (_list->head != NULL)
 	{
 		Node *tmp = (_list->head);
