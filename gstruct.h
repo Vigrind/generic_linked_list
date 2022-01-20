@@ -21,27 +21,11 @@ typedef struct generic_node{
 	struct generic_node *prevPtr;
 }Node;
 
-typedef struct function_list function;
-
 typedef struct generic_list{
 	size_t size;
 	Node *head;
 	Node *tail;
-	function *fun;
 }List;
-
-struct function_list{
-	bool (*equalData)(const void*,const void*); /**< If you want, you can save your equal function in the structure */
-	bool (*comp)(const void*,const void*); /**< If you want, you can save your compare function in the structure */
-	Node *(*newNode)(void *, size_t);
-	void (*insertAtFront)(List *, Node *);
-	void (*insertAtBack)(List *, Node *);
-	void (*insertInOrder)(List *, Node *, bool (*compare)(const void*,const void*));
-	void *(*top)(const Node*);
-	void (*delete)(List *);
-	void (*print)(Node*, void (*f_yprint)(const void*));
-	void (*searchNDelete)(List *, void *, bool (*equal)(const void*, const void*));
-};
 
 void my_move(void* _dst, const void* _src, size_t _size);
 

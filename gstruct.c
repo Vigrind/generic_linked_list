@@ -129,22 +129,10 @@ void list_delete(List *_list) {
 	_list->tail = NULL;
 }
 
-function _all = {
-	.newNode=&list_new_node,
-	.insertAtFront=&list_insert_at_front,
-	.insertAtBack=&list_insert_at_back,
-	.insertInOrder=&list_insert_in_order,
-	.top=&list_top,
-	.delete=&list_delete,
-	.print=&list_print_node,
-	.searchNDelete=&list_search_delete
-};
-
 List *newList(){
 	List *l = (List*)malloc(sizeof(List));
 	l->size = 0;
 	l->head = NULL;
 	l->tail = NULL;
-	l->fun = &_all;
 	return l;
 }
