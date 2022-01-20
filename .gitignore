@@ -4,3 +4,4 @@ latex/
 Doxyfile
 .vscode/launch.json
 .vscode/tasks.json
+s_test.sh
