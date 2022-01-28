@@ -10,7 +10,7 @@ void my_move(void* _dst, const void* _src, size_t _size) {
 	}
 }
 
-Node *new_node(void *_data, List* _l) {
+Node *new_node(void *_data, const List* _l) {
 	Node *newPtr = (Node *)malloc(sizeof(Node));
 	if(newPtr == NULL) {
 		fprintf(stderr,"No memory aviable\n");
@@ -141,7 +141,7 @@ void copy_list(List *_dst_list, const List *_src_list) {
 	const Node * _tmp_head = _src_list->head;
 	while (_tmp_head)
 	{
-		insert_at_back(_dst_list , new_node((_tmp_head->data),_src_list->type_size));
+		insert_at_back(_dst_list , new_node((_tmp_head->data),_src_list));
 		_tmp_head = _tmp_head->nextPtr;
 	}
 }

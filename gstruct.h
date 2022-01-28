@@ -24,7 +24,7 @@ typedef struct generic_list{
 }List;
 
 void my_move(void* _dst, const void* _src, size_t _size);
-Node *new_node(void *_data, List* _l);
+Node *new_node(void *_data, const List* _l);
 void insert_at_front(List *_list, Node *_node);
 void insert_at_back(List *_list, Node *_node);
 void insert_in_order(List *_list, Node *_node, bool (*compare)(const void*,const void*));
