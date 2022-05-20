@@ -99,9 +99,11 @@ void search_delete(List *_list, void *_data, bool (*equal)(const void*, const vo
 			}
 			free(tmp->data);
 			free(tmp);
+			return;
 		}
 		curr = next;
 	}
+	printf("No data is found\n");
 }
 
 void print_list(const List *_list, void (*your_print)(const void *)) {
