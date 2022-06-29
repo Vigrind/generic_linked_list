@@ -3,10 +3,6 @@
 Firs of all, you must create a pointer to type List, for example List *l = new_list(sizeof(int));\
 After you can use the functions described below to create and manage your list.
 
-**PAY ATTENTION!!!**\
-For now you can insert in the list all type of element you want.\
-This means that you can create also a list with different type **(DON'T DO THAT!)**\
-In the future there will be a type checking.
 
 List of all function you can use for manage a List:
 |Name|Example of use|Brief Description|
