@@ -23,17 +23,17 @@ typedef struct generic_list{
 	Node *tail;
 }List;
 
-void my_move(void* _dst, const void* _src, size_t _size);
-Node *new_node(void *_data, const List* _l);
-void insert_at_front(List *_list, Node *_node);
-void insert_at_back(List *_list, Node *_node);
-void insert_in_order(List *_list, Node *_node, bool (*compare)(const void*,const void*));
-void delete_list(List *_list);
-void search_delete(List *_list, void *_data, bool (*equal)(const void*, const void*));
-void *top_list(const List *_list);
-void print_list(const List *_list, void (*your_print)(const void *));
+void my_move(void* dst, const void* src, size_t size);
+Node *new_node(void *data, const List* l);
+void insert_at_front(List *list, Node *node);
+void insert_at_back(List *list, Node *node);
+void insert_in_order(List *list, Node *node, bool (*compare)(const void*,const void*));
+void delete_list(List *list);
+void search_delete(List *list, void *data, bool (*equal)(const void*, const void*));
+void *top_list(const List *list);
+void print_list(const List *list, void (*your_print)(const void *));
 bool equal_list(const List *_first, const List* _second, bool (*equal)(const void*, const void*));
 List *new_list(size_t _type);
-void copy_list(List *_dst_list, const List *_src_list);
+void copy_list(List *dst_list, const List *src_list);
 List *create_third_list(List *_f, List *_s, size_t _type,void *(*fun)(void*,void*));
 #endif
