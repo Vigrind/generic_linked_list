@@ -20,8 +20,7 @@ Node *new_node(void *data, const List* list) {
 	newPtr->nextPtr = NULL;
 	newPtr->prevPtr = NULL;
 	//my_cpy(newPtr->data,data,list->type_size);
-	memmove(newPtr->data,data,list->type_size); //we can also use memmove
-
+	memcpy(newPtr->data,data,list->type_size); //we can also use memcpy
 	return newPtr;
 }
 
@@ -85,8 +84,8 @@ void *tail_list(const List *list){
 void *top_and_delete(List *list){
 	if(list->head != NULL){
 		list->size--;
-		void *ret = malloc(sizeof(list->type_size));
-		memmove(ret,list->head->data,list->type_size);
+		void *ret = malloc(list->type_size);
+		memcpy(ret,list->head->data,list->type_size);
 		Node *tmp = list->head;
 		if(list->head->nextPtr)
 			list->head->nextPtr->prevPtr = NULL;
@@ -104,8 +103,8 @@ void *top_and_delete(List *list){
 void *tail_and_delete(List *list){
 	if(list->tail != NULL){
 		list->size--;
-		void *ret = malloc(sizeof(list->type_size));
-		memmove(ret,list->tail->data,list->type_size);
+		void *ret = malloc(list->type_size);
+		memcpy(ret,list->tail->data,list->type_size);
 		Node *tmp = list->tail;
 		if(list->tail->prevPtr)
 			list->tail->prevPtr->nextPtr = NULL;
