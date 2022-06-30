@@ -1,7 +1,7 @@
 #include "gstruct.h"
 
 //Copy src to dst, 1 byte at step
-void my_move(void* dst, const void* src, size_t size) {
+void my_cpy(void* dst, const void* src, size_t size) {
 	//__uint8_t size is 1 byte (8 bit)
 	__uint8_t *t_data = (__uint8_t*)dst;
 	__uint8_t *o_data = (__uint8_t*)src;
@@ -19,8 +19,8 @@ Node *new_node(void *data, const List* list) {
 	newPtr->data = malloc(list->type_size);
 	newPtr->nextPtr = NULL;
 	newPtr->prevPtr = NULL;
-	my_move(newPtr->data,data,list->type_size);
-	//memmove(newPtr->data,data,_l->type_size); //we can also use memmove
+	//my_cpy(newPtr->data,data,list->type_size);
+	memmove(newPtr->data,data,list->type_size); //we can also use memmove
 
 	return newPtr;
 }
@@ -69,8 +69,52 @@ void *top_list(const List* list) {
 		return list->head->data;
 	else
 		fprintf(stderr,"The list is empty\n");
-	free((List*)list);
-	exit(EXIT_FAILURE);
+	
+	return NULL;
+}
+
+void *tail_list(const List *list){
+	if(list->tail != NULL)
+		return list->tail->data;
+	else
+		fprintf(stderr,"The list is empty\n");
+	
+	return NULL;
+}
+
+void *top_and_delete(List *list){
+	if(list->head != NULL){
+		list->size--;
+		void *ret = malloc(sizeof(list->type_size));
+		memmove(ret,list->head->data,list->type_size);
+		Node *tmp = list->head;
+		list->head->nextPtr->prevPtr = NULL;
+		list->head = list->head->nextPtr;
+		free(tmp->data);
+		tmp->data = NULL;
+		free(tmp);
+	}
+	else
+		fprintf(stderr,"The list is empty\n");
+	
+	return NULL;
+}
+void *tail_and_delete(List *list){
+	if(list->tail != NULL){
+		list->size--;
+		void *ret = malloc(sizeof(list->type_size));
+		memmove(ret,list->tail->data,list->type_size);
+		Node *tmp = list->tail;
+		list->tail->prevPtr->nextPtr = NULL;
+		list->tail = list->tail->prevPtr;
+		free(tmp->data);
+		tmp->data = NULL;
+		free(tmp);
+	}
+	else
+		fprintf(stderr,"The list is empty\n");
+	
+	return NULL;
 }
 
 void search_delete(List *list, void *data, bool (*equal)(const void*, const void*)) {

@@ -31,6 +31,9 @@ void insert_in_order(List *list, Node *node, bool (*compare)(const void*,const v
 void delete_list(List *list);
 void search_delete(List *list, void *data, bool (*equal)(const void*, const void*));
 void *top_list(const List *list);
+void *tail_list(const List *list);
+void *top_and_delete(List *list);
+void *tail_and_delete(List *list);
 void print_list(const List *list, void (*your_print)(const void *));
 bool equal_list(const List *_first, const List* _second, bool (*equal)(const void*, const void*));
 List *new_list(size_t _type);
