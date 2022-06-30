@@ -88,11 +88,13 @@ void *top_and_delete(List *list){
 		void *ret = malloc(sizeof(list->type_size));
 		memmove(ret,list->head->data,list->type_size);
 		Node *tmp = list->head;
-		list->head->nextPtr->prevPtr = NULL;
+		if(list->head->nextPtr)
+			list->head->nextPtr->prevPtr = NULL;
 		list->head = list->head->nextPtr;
 		free(tmp->data);
 		tmp->data = NULL;
 		free(tmp);
+		return ret;
 	}
 	else
 		fprintf(stderr,"The list is empty\n");
@@ -105,11 +107,13 @@ void *tail_and_delete(List *list){
 		void *ret = malloc(sizeof(list->type_size));
 		memmove(ret,list->tail->data,list->type_size);
 		Node *tmp = list->tail;
-		list->tail->prevPtr->nextPtr = NULL;
+		if(list->tail->prevPtr)
+			list->tail->prevPtr->nextPtr = NULL;
 		list->tail = list->tail->prevPtr;
 		free(tmp->data);
 		tmp->data = NULL;
 		free(tmp);
+		return ret;
 	}
 	else
 		fprintf(stderr,"The list is empty\n");
