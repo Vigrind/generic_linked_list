@@ -10,7 +10,7 @@ void my_cpy(void* dst, const void* src, size_t size) {
 	}
 }
 
-Node *new_node(void *data, const List* list) {
+Node *list_new_node(void *data, const List* list) {
 	Node *newPtr = (Node *)malloc(sizeof(Node));
 	if(newPtr == NULL) {
 		fprintf(stderr,"No memory aviable\n");
@@ -24,7 +24,7 @@ Node *new_node(void *data, const List* list) {
 	return newPtr;
 }
 
-void insert_at_front(List *list, Node *node) {
+void list_insert_at_front(List *list, Node *node) {
 	node->prevPtr = NULL;
 	node->nextPtr = list->head;
 	Node **res = list->head == NULL ? &(list->tail) : &(list->head->prevPtr);
@@ -33,7 +33,7 @@ void insert_at_front(List *list, Node *node) {
 	list->size++;
 }
 
-void insert_at_back(List *list, Node *node) {
+void list_insert_at_back(List *list, Node *node) {
 	node->nextPtr = NULL;
 	node->prevPtr = list->tail;
 	Node **res = list->tail == NULL ? &(list->head) : &(list->tail->nextPtr);
@@ -42,16 +42,16 @@ void insert_at_back(List *list, Node *node) {
 	list->size++;
 }
 
-void insert_in_order(List *list, Node *node, bool (*compare)(const void*,const void*)) {
+void list_insert_in_order(List *list, Node *node, bool (*compare)(const void*,const void*)) {
 	if(!list->head) //if is the first element of the list
-		insert_at_front(list,node);
+		list_insert_at_front(list,node);
 	else {
 		Node *curr = list->head;
 		while (curr != NULL && (*compare)(node->data,curr->data)) {
 			curr = curr->nextPtr;
 		}
 		if(!curr) //if is the last element of the list
-			insert_at_back(list,node);
+			list_insert_at_back(list,node);
 		else { //insert between two node
 			list->size++;
 			node->nextPtr = curr;
@@ -63,7 +63,7 @@ void insert_in_order(List *list, Node *node, bool (*compare)(const void*,const v
 	}
 }
 
-void *top_list(const List* list) {
+void *list_top(const List* list) {
 	if(list->head != NULL)
 		return list->head->data;
 	else
@@ -72,7 +72,7 @@ void *top_list(const List* list) {
 	return NULL;
 }
 
-void *tail_list(const List *list){
+void *list_tail(const List *list){
 	if(list->tail != NULL)
 		return list->tail->data;
 	else
@@ -81,7 +81,7 @@ void *tail_list(const List *list){
 	return NULL;
 }
 
-void *top_and_delete(List *list){
+void *list_top_and_delete(List *list){
 	if(list->head != NULL){
 		list->size--;
 		void *ret = malloc(list->type_size);
@@ -100,7 +100,7 @@ void *top_and_delete(List *list){
 	
 	return NULL;
 }
-void *tail_and_delete(List *list){
+void *list_tail_and_delete(List *list){
 	if(list->tail != NULL){
 		list->size--;
 		void *ret = malloc(list->type_size);
@@ -120,7 +120,7 @@ void *tail_and_delete(List *list){
 	return NULL;
 }
 
-void search_delete(List *list, void *data, bool (*equal)(const void*, const void*)) {
+void list_search_delete(List *list, void *data, bool (*equal)(const void*, const void*)) {
 	Node *curr = list->head;
 	while(curr != NULL) {
 		Node *next = curr->nextPtr; //save next because curr will be delete 
@@ -153,7 +153,7 @@ void search_delete(List *list, void *data, bool (*equal)(const void*, const void
 	printf("No data is found\n");
 }
 
-void print_list(const List *list, void (*your_print)(const void *)) {
+void list_print(const List *list, void (*your_print)(const void *)) {
 	Node *tmp = list->head;
 	while(tmp != NULL) {
 		(*your_print)(tmp->data);
@@ -162,7 +162,7 @@ void print_list(const List *list, void (*your_print)(const void *)) {
 	printf("NULL\n");
 }
 
-void delete_list(List *list) {
+void list_delete(List *list) {
 	while (list->head != NULL)
 	{
 		Node *tmp = (list->head);
@@ -176,7 +176,7 @@ void delete_list(List *list) {
 	list->tail = NULL;
 }
 
-List *new_list(size_t type){
+List *list_create(size_t type){
 	List *l = (List*)malloc(sizeof(List));
 	l->type_size = type;
 	l->size = 0;
@@ -185,17 +185,17 @@ List *new_list(size_t type){
 	return l;
 }
 
-void copy_list(List *dst_list, const List *src_list) {
-	delete_list(dst_list);
+void list_copy_list(List *dst_list, const List *src_list) {
+	list_delete(dst_list);
 	const Node * _tmp_head = src_list->head;
 	while (_tmp_head)
 	{
-		insert_at_back(dst_list , new_node((_tmp_head->data),src_list));
+		list_insert_at_back(dst_list , list_new_node((_tmp_head->data),src_list));
 		_tmp_head = _tmp_head->nextPtr;
 	}
 }
 
-bool equal_list(const List *_first, const List* _second, bool (*equal)(const void*, const void*)) {
+bool list_equal_list(const List *_first, const List* _second, bool (*equal)(const void*, const void*)) {
 	if(_first->size == _second->size) {
 		const Node *f_tmp = _first->head;
 		const Node *s_tmp = _second->head;
@@ -223,12 +223,12 @@ Node *cr_n(void* data) {
 	return newPtr;
 }
 
-List *create_third_list(List *_f, List *_s, size_t _type, void *(*fun)(void*,void*)) {
-	List *dst = new_list(_type);
+List *list_create_third_list(List *_f, List *_s, size_t _type, void *(*fun)(void*,void*)) {
+	List *dst = list_create(_type);
 	Node *f_tmp = _f->tail;
 	Node *s_tmp = _s->tail;
 	while(f_tmp && s_tmp) {
-		insert_at_front(dst,cr_n((*fun)(f_tmp->data,s_tmp->data)));
+		list_insert_at_front(dst,cr_n((*fun)(f_tmp->data,s_tmp->data)));
 		f_tmp = f_tmp->prevPtr;
 		s_tmp = s_tmp->prevPtr;
 	}
