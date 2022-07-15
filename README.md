@@ -7,17 +7,17 @@ After you can use the functions described below to create and manage your list.
 List of all function you can use for manage a List:
 |Name|Example of use|Brief Description|
 |----|--------------|-----------------|
-|<font color="yellow">insert_at_front</font>|insert_at_front(list,new_node(&elem,list)|inserts an element at the top of the list
-|<font color="yellow">insert_at_back</font>|insert_at_back(list,new_node(&elem,list)|inserts an element at the tail of the list
-|<font color="yellow">insert_in_order</font>|insert_in_order(list, new_node(&elem,list), your_compare_function)|inserts an element in order (with duplicate)
-|<font color="yellow">new_node</font>|new_node(&elem,list)|create a new node 
+|<font color="yellow">list_insert_at_front</font>|insert_at_front(list,new_node(&elem,list)|inserts an element at the top of the list
+|<font color="yellow">list_insert_at_back</font>|insert_at_back(list,new_node(&elem,list)|inserts an element at the tail of the list
+|<font color="yellow">list_insert_in_order</font>|list_insert_in_order(list, list_new_node(&elem,list), your_compare_function)|inserts an element in order (with duplicate)
+|<font color="yellow">list_new_node</font>|new_node(&elem,list)|create a new node 
 |<font color="yellow">list_top</font>|list_top(list)|return the top element of the list
 |<font color="yellow">list_delete</font>|list_delete(list)|delete all element of the list
-|<font color="yellow">print_list</font>|print_list(list, your_print_function)|print the list
-|<font color="yellow">search_delete</font>|search_delete(list, elem, your_equal_function)|delete a specific item, and all its occurrences
-|<font color="yellow">copy_list</font>|copy_list(dest_list,source_list)|create a copy of the source_list
-|<font color="yellow">equal_list</font>|equal_list(first_list,second_list,your_equa_function)|return true(1) if the list are equal, 0 otherwise
-|<font color="yellow">create_what_you_want</font>|List *third_list = create_what_you_want(first_list,second_list,sizeof(int),your_create_function)|Create a third list by scrolling through both **_first_list_** and **_second_list_**, pass the element of the **_first_** and **_second_** to the `create_your_function`. The element in the third list will be equal to the result of `create_your_function`
+|<font color="yellow">list_print</font>|print_list(list, your_print_function)|print the list
+|<font color="yellow">list_search_delete</font>|search_delete(list, elem, your_equal_function)|delete a specific item, and all its occurrences
+|<font color="yellow">list_copy_list</font>|copy_list(dest_list,source_list)|create a copy of the source_list
+|<font color="yellow">list_equal</font>|equal_list(first_list,second_list,your_equa_function)|return true(1) if the list are equal, 0 otherwise
+|<font color="yellow">list_create_third_list</font>|List *third_list = list_create_third_list(first_list,second_list,sizeof(int),your_create_function)|Create a third list by scrolling through both **_first_list_** and **_second_list_**, pass the element of the **_first_** and **_second_** to the `list_create_third_list`. The element in the third list will be equal to the result of `list_create_third_list`
 
 **Function that you need to define:**
  * **compare** function, to use in insert_in_order
