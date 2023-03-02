@@ -7,20 +7,20 @@ After you can use the macro described below to create and manage your list.
 List of all function you can use for manage a List:
 |Name|Example of use|Brief Description|
 |----|--------------|-----------------|
-|<font color="yellow">insert_front</font>|insert_front(list, elem)|inserts an element at the top of the list
-|<font color="yellow">insert_back</font>|insert_back(list, elem)|inserts an element at the tail of the list
-|<font color="yellow">insert_order</font>|insert_order(list, elem, compare_function)|inserts an element in order (with duplicate)
-|<font color="yellow">n_node</font>|n_node(elem, list)|create a new node 
-|<font color="yellow">top</font>|top(list)|return a pointer to the top element of the list
-|<font color="yellow">top_delete</font>|top_delete(list)|return a pointer to the top element of the list, **remember to free the memory returned by top_delete**
-|<font color="yellow">tail</font>|tail(list)|return a pointer to the tail element of the list
-|<font color="yellow">tail_delete</font>|tail_delete(list)|return a pointer to the tail element of the list. **remember to free the memory returned by tail_delete**
-|<font color="yellow">ldelete</font>|ldelete(list)|delete all element of the list
-|<font color="yellow">lprint</font>|lprint(list, your_print_function)|print the list
-|<font color="yellow">search_and_delete</font>|search_and_delete(list, elem, your_equal_function)|delete a specific item, and all its occurrences
-|<font color="yellow">list_copy</font>|list_copy(dest_list, source_list)|create a copy of the source_list in dest_list
-|<font color="yellow">lequal</font>|lequal(first_list, second_list, your_equal_function)|return true(1) if the list are equal, 0 otherwise
-|<font color="yellow">crt_third_list</font>|List *third_list = crt_third_list(sizeof(int), first_list, second_list, your_create_function)|Create a third list by scrolling through both **_first_list_** and **_second_list_**, pass the element of the **_first_** and **_second_** to the `your_create_function`. The element in the third list will be equal to the result of `your_create_function`
+|<span style="color: yellow">insert_front</span>|insert_front(list, elem)|inserts an element at the top of the list
+|<span style="color: yellow">insert_back</span>|insert_back(list, elem)|inserts an element at the tail of the list
+|<span style="color: yellow">insert_order</span>|insert_order(list, elem, compare_function)|inserts an element in order (with duplicate)
+|<span style="color: yellow">n_node</span>|n_node(elem, list)|create a new node 
+|<span style="color: yellow">top</span>|top(list)|return a pointer to the top element of the list
+|<span style="color: yellow">top_delete</span>|top_delete(list)|return a pointer to the top element of the list, **remember to free the memory returned by top_delete**
+|<span style="color: yellow">tail</span>|tail(list)|return a pointer to the tail element of the list
+|<span style="color: yellow">tail_delete</span>|tail_delete(list)|return a pointer to the tail element of the list. **remember to free the memory returned by tail_delete**
+|<span style="color: yellow">ldelete</span>|ldelete(list)|delete all element of the list
+|<span style="color: yellow">lprint</span>|lprint(list, your_print_function)|print the list
+|<span style="color: yellow">search_and_delete</span>|search_and_delete(list, elem, your_equal_function)|delete a specific item, and all its occurrences
+|<span style="color: yellow">list_copy</span>|list_copy(dest_list, source_list)|create a copy of the source_list in dest_list
+|<span style="color: yellow">lequal</span>|lequal(first_list, second_list, your_equal_function)|return true(1) if the list are equal, 0 otherwise
+|<span style="color: yellow">crt_third_list</span>|List *third_list = crt_third_list(sizeof(int), first_list, second_list, your_create_function)|Create a third list by scrolling through both **_first_list_** and **_second_list_**, pass the element of the **_first_** and **_second_** to the `your_create_function`. The element in the third list will be equal to the result of `your_create_function`
 
 **Function that you need to define:**
  * **compare** function, to use in insert_in_order
