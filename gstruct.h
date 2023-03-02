@@ -5,38 +5,59 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef enum _bool {
+struct list_function;
+
+enum _bool {
 	true = 1,
 	false = 0
-}bool;
+};
+typedef enum _bool bool;
 
-typedef struct generic_node{
+struct generic_node{
 	void *data;
 	struct generic_node *nextPtr;
 	struct generic_node *prevPtr;
-}Node;
+};
+typedef struct generic_node Node;
 
-typedef struct generic_list{
+
+struct generic_list{
+	struct list_function *functions;
 	size_t type_size;
-	size_t size;
+	size_t list_size;
 	Node *head;
 	Node *tail;
-}List;
+};
+typedef struct generic_list List;
 
-void my_move(void* dst, const void* src, size_t size);
-Node *list_new_node(void *data, const List* l);
-void list_insert_at_front(List *list, Node *node);
-void list_insert_at_back(List *list, Node *node);
-void list_insert_in_order(List *list, Node *node, bool (*compare)(const void*,const void*));
+
+struct list_function {
+	Node *(*new_node)(void*, const List*);
+	void (*insert_at_front)(List*, Node*);
+	void (*insert_at_back)(List*, Node*);
+	void (*insert_in_order)(List*, Node*, bool (*compare)(const void*, const void*));
+	void (*search_delete)(List*, void*, bool (*equal)(const void*, const void*));
+	void *(*top)(const List*);
+	void *(*tail)(const List*);
+	void *(*top_and_delete)(List*);
+	void *(*tail_and_delete)(List*);
+	void (*print)(const List*, void (*your_print)(const void *));
+	bool (*equal)(const List*, const List*, bool (*equal)(const void*, const void*));
+	void (*copy_list)(List *, const List *);
+	List *(*create_third_list)(List*, List*, size_t, void *(*fun)(void*,void*));
+};
+typedef struct list_function Functions;
+
+#define __private static
+#define new_list(size_type)								list_init(size_type)
+#define n_node(val, list)								list->functions->new_node(&val, list)
+#define insert_order(list, val, comp_function)			list->functions->insert_in_order(list, n_node(val, list), comp_function);
+#define insert_front(list, val)							list->functions->insert_at_front(list, n_node(val, list))
+#define insert_back(list, val)							list->functions->insert_at_back(list, n_node(val, list))
+#define l_print(list, print_function)					list->functions->print(list, print_function)
+#define search_and_delete(list, val, equal_function)	list->functions->search_delete(list, &val, equal_function)
+
 void list_delete(List *list);
-void list_search_delete(List *list, void *data, bool (*equal)(const void*, const void*));
-void *list_top(const List *list);
-void *list_tail(const List *list);
-void *list_top_and_delete(List *list);
-void *list_tail_and_delete(List *list);
-void list_print(const List *list, void (*your_print)(const void *));
-bool list_equal(const List *_first, const List* _second, bool (*equal)(const void*, const void*));
-List *list_create(size_t _type);
-void list_copy_list(List *dst_list, const List *src_list);
-List *list_create_third_list(List *_f, List *_s, size_t _type,void *(*fun)(void*,void*));
+List *list_init(size_t type);
+
 #endif

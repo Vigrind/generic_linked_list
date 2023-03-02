@@ -29,25 +29,25 @@ int main(void) {
 	init_int_list(l_int);
 	int a = 1000;
 	int b = -1;
-	insert_at_back(l_int,new_node(&a,l_int));
-	insert_at_front(l_int,new_node(&b,l_int));
-	print_list(l_int,&print_int);
+	insert_back(l_int, a);
+	insert_front(l_int, b);
+	l_print(l_int, print_int);
 
 	/* Delete an element from int list*/
 	int del_int = rand() % 20;
 	printf("Element to delete: %d\n",del_int);
-	search_delete(l_int,&del_int,&equal_int);
-	print_list(l_int,&print_int); /* print the list delete */
+	search_and_delete(l_int, del_int, equal_int);
+	l_print(l_int, print_int); /* print the list delete */
 
 	/* create a prova list */
 	printf("\nInit and print prova list\n");
 	init_prova_list(l_prova);
-	print_list(l_prova,&print_prova);
+	l_print(l_prova, print_prova);
 	printf("\n");
 
 	/* delete all the list and free their pointer */
-	delete_list(l_int);
-	delete_list(l_prova);
+	list_delete(l_int);
+	list_delete(l_prova);
 	free(l_int);
 	free(l_prova);
 }
@@ -79,7 +79,8 @@ void init_int_list(List *_l){
 	for (size_t i = 0; i < 20; i++)
 	{
 		int a = rand() % 20;
-		insert_in_order(_l,new_node(&a,_l),comp_int);
+		//insert_order(_l, a, comp_int);
+		_l->functions->insert_in_order(_l, _l->functions->new_node(&a, _l), comp_int);
 	}
 }
 
@@ -90,6 +91,6 @@ void init_prova_list(List *_l){
 			.a = 97 + (rand() % 25),
 			.b = (rand() % 20) / 5
 		};
-		insert_at_front(_l,new_node(&p,_l));
+		insert_front(_l, p);
 	}
 }
