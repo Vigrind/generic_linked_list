@@ -82,6 +82,7 @@ __private void *list_tail(const List *list){
 	return NULL;
 }
 
+//Remember to free the memory returned by top_delete
 __private void *list_top_and_delete(List *list){
 	if (list->head != NULL){
 		list->list_size--;
@@ -176,7 +177,7 @@ __private void list_print(const List *list, void (*your_print)(const void *)) {
 	printf("NULL\n");
 }
 
-void list_delete(List *list) {
+void list_delete(List *list, int flag) {
 	while (list->head != NULL) {
 		Node *tmp = list->head;
 		free(list->head->data);	//first delete memory allocate for pointer to void
@@ -187,11 +188,13 @@ void list_delete(List *list) {
 	list->list_size = 0;
 	list->head = NULL;
 	list->tail = NULL;
-	free(list->functions);
+	
+	if (flag)
+		free(list->functions);
 }
 
-__private void list_copy(List *dst_list, const List *src_list) {
-	list_delete(dst_list);
+void list_copy(List *dst_list, const List *src_list) {
+	list_delete(dst_list, 0);
 	const Node * _tmp_head = src_list->head;
 	
 	while (_tmp_head) {
@@ -230,7 +233,7 @@ __private Node *cr_n(void* data) {
 	return newPtr;
 }
 
-__private List *list_create_third_list(List *_f, List *_s, size_t _type, void *(*fun)(void*,void*)) {
+List *list_create_third_list(size_t _type, List *_f, List *_s, void *(*fun)(void*,void*)) {
 	List *dst = list_init(_type);
 	Node *f_tmp = _f->tail;
 	Node *s_tmp = _s->tail;
@@ -255,9 +258,7 @@ __private void list_function_initialize(Functions *f) {
 	f->tail_and_delete = list_tail_and_delete;
 	f->search_delete = list_search_delete;
 	f->print = list_print;
-	f->copy_list = list_copy;
 	f->equal = list_equal;
-	f->create_third_list = list_create_third_list;
 }
 
 List *list_init(size_t type) {

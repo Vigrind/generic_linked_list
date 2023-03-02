@@ -31,25 +31,78 @@ int main(void) {
 	int b = -1;
 	insert_back(l_int, a);
 	insert_front(l_int, b);
-	l_print(l_int, print_int);
+	lprint(l_int, print_int);
 
 	/* Delete an element from int list*/
 	int del_int = rand() % 20;
 	printf("Element to delete: %d\n",del_int);
 	search_and_delete(l_int, del_int, equal_int);
-	l_print(l_int, print_int); /* print the list delete */
+	lprint(l_int, print_int); /* print the list delete */
 
 	/* create a prova list */
 	printf("\nInit and print prova list\n");
 	init_prova_list(l_prova);
-	l_print(l_prova, print_prova);
+	lprint(l_prova, print_prova);
 	printf("\n");
 
+	/* Create a copy of int list*/
+	List *cpy_l_int = new_list(sizeof(int));
+	list_copy(cpy_l_int, l_int);
+	lprint(cpy_l_int, print_int);
+	printf("\n");
+
+	/* Create a copy of prova list*/
+	List *cpy_l_prova = new_list(sizeof(prova));
+	list_copy(cpy_l_prova, l_prova);
+	lprint(cpy_l_prova, print_prova);
+	printf("\n");
+
+	/*Create a third list whit the value the sum of cpy_l_int and l_int*/
+	List *thrd_list = crt_third_list(sizeof(int), cpy_l_int, l_int, sum_elem);
+	lprint(thrd_list, print_int);
+	printf("\n");
+
+	/* Top from int list*/
+	int *t_int = top(l_int);
+	printf("%d\n", *t_int);
+	
+	/* Top from prova list*/
+	prova *t_prova = top(l_prova);
+	printf("%c, %f\n", t_prova->a, t_prova->b);
+
+	/* Top and delete*/
+	int *td_int = top_delete(l_int);
+	printf("%d\n", *td_int);
+	lprint(l_int, print_int);
+	printf("\n");
+
+	/* Tail and delete*/
+	prova *td_prova = tail_delete(l_prova);
+	printf("%c, %f\n", td_prova->a, td_prova->b);
+	lprint(l_prova, print_prova);
+	printf("\n");
+
+	/* Equal list */
+	if (lequal(cpy_l_int, l_int, equal_int) == true)
+		printf("the int list are equal\n");
+	else
+		printf("not equal\n");
+
 	/* delete all the list and free their pointer */
-	list_delete(l_int);
-	list_delete(l_prova);
+	ldelete(cpy_l_int);
+	ldelete(l_int);
+	ldelete(l_prova);
+	ldelete(cpy_l_prova);
+	ldelete(thrd_list);
+	free(cpy_l_int);
 	free(l_int);
 	free(l_prova);
+	free(cpy_l_prova);
+	free(thrd_list);
+	
+	/* free memory returned by top or tail and delete*/
+	free(td_int);
+	free(td_prova);
 }
 
 void print_int(const void *_data) {

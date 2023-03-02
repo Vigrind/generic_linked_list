@@ -5,6 +5,8 @@
 		"limits": "c",
 		"type_traits": "c",
 		"stdlib.h": "c",
-		"gstruct.h": "c"
+		"gstruct.h": "c",
+		"list": "c",
+		"functional": "c"
 	}
 }
