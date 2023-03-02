@@ -7,20 +7,20 @@ After you can use the macro described below to create and manage your list.
 List of all function you can use for manage a List:
 |Name|Example of use|Brief Description|
 |----|--------------|-----------------|
-|<span style="color: yellow">insert_front</span>|insert_front(list, elem)|inserts an element at the top of the list
-|<span style="color: yellow">insert_back</span>|insert_back(list, elem)|inserts an element at the tail of the list
-|<span style="color: yellow">insert_order</span>|insert_order(list, elem, compare_function)|inserts an element in order (with duplicate)
-|<span style="color: yellow">n_node</span>|n_node(elem, list)|create a new node 
-|<span style="color: yellow">top</span>|top(list)|return a pointer to the top element of the list
-|<span style="color: yellow">top_delete</span>|top_delete(list)|return a pointer to the top element of the list, **remember to free the memory returned by top_delete**
-|<span style="color: yellow">tail</span>|tail(list)|return a pointer to the tail element of the list
-|<span style="color: yellow">tail_delete</span>|tail_delete(list)|return a pointer to the tail element of the list. **remember to free the memory returned by tail_delete**
-|<span style="color: yellow">ldelete</span>|ldelete(list)|delete all element of the list
-|<span style="color: yellow">lprint</span>|lprint(list, your_print_function)|print the list
-|<span style="color: yellow">search_and_delete</span>|search_and_delete(list, elem, your_equal_function)|delete a specific item, and all its occurrences
-|<span style="color: yellow">list_copy</span>|list_copy(dest_list, source_list)|create a copy of the source_list in dest_list
-|<span style="color: yellow">lequal</span>|lequal(first_list, second_list, your_equal_function)|return true(1) if the list are equal, 0 otherwise
-|<span style="color: yellow">crt_third_list</span>|List *third_list = crt_third_list(sizeof(int), first_list, second_list, your_create_function)|Create a third list by scrolling through both **_first_list_** and **_second_list_**, pass the element of the **_first_** and **_second_** to the `your_create_function`. The element in the third list will be equal to the result of `your_create_function`
+|```insert_front```|insert_front(list, elem)|inserts an element at the top of the list
+|```insert_back```|insert_back(list, elem)|inserts an element at the tail of the list
+|```insert_order```|insert_order(list, elem, compare_function)|inserts an element in order (with duplicate)
+|```n_node```|n_node(elem, list)|create a new node 
+|```top```|top(list)|return a pointer to the top element of the list
+|```top_delete```|top_delete(list)|return a pointer to the top element of the list, **remember to free the memory returned by top_delete**
+|```tail```|tail(list)|return a pointer to the tail element of the list
+|```tail_delete```|tail_delete(list)|return a pointer to the tail element of the list. **remember to free the memory returned by tail_delete**
+|```ldelete```|ldelete(list)|delete all element of the list
+|```lprint```|lprint(list, your_print_function)|print the list
+|```search_and_delete```|search_and_delete(list, elem, your_equal_function)|delete a specific item, and all its occurrences
+|```list_copy```|list_copy(dest_list, source_list)|create a copy of the source_list in dest_list
+|```lequal```|lequal(first_list, second_list, your_equal_function)|return true(1) if the list are equal, 0 otherwise
+|```crt_third_list```|List *third_list = crt_third_list(sizeof(int), first_list, second_list, your_create_function)|Create a third list by scrolling through both **_first_list_** and **_second_list_**, pass the element of the **_first_** and **_second_** to the `your_create_function`. The element in the third list will be equal to the result of `your_create_function`
 
 **Function that you need to define:**
  * **compare** function, to use in insert_in_order
