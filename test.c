@@ -132,8 +132,8 @@ void init_int_list(List *_l){
 	for (size_t i = 0; i < 20; i++)
 	{
 		int a = rand() % 20;
-		//insert_order(_l, a, comp_int);
-		_l->functions->insert_in_order(_l, _l->functions->new_node(&a, _l), comp_int);
+		insert_order(_l, a, comp_int);
+		//_l->functions->insert_in_order(_l, _l->functions->new_node(&a, _l), comp_int);
 	}
 }
 

@@ -1,23 +1,26 @@
 # Generic Double Linked List
 ## How to use
 Firs of all, you must create a pointer to type List, for example List *l = new_list(sizeof(int));\
-After you can use the functions described below to create and manage your list.
+After you can use the macro described below to create and manage your list.
 
 
 List of all function you can use for manage a List:
 |Name|Example of use|Brief Description|
 |----|--------------|-----------------|
-|<font color="yellow">list_insert_at_front</font>|list_insert_at_front(list,list_new_node(&elem,list)|inserts an element at the top of the list
-|<font color="yellow">list_insert_at_back</font>|list_insert_at_back(list,list_new_node(&elem,list)|inserts an element at the tail of the list
-|<font color="yellow">list_insert_in_order</font>|list_insert_in_order(list, list_new_node(&elem,list), your_compare_function)|inserts an element in order (with duplicate)
-|<font color="yellow">list_new_node</font>|list_new_node(&elem,list)|create a new node 
-|<font color="yellow">list_top</font>|list_list_top(list)|return the top element of the list
-|<font color="yellow">list_delete</font>|list_delete(list)|delete all element of the list
-|<font color="yellow">list_print</font>|list_print(list, your_print_function)|print the list
-|<font color="yellow">list_search_delete</font>|list_search_delete(list, elem, your_equal_function)|delete a specific item, and all its occurrences
-|<font color="yellow">list_copy_list</font>|list_copy_list(dest_list,source_list)|create a copy of the source_list
-|<font color="yellow">list_equal</font>|list_equal(first_list,second_list,your_equa_function)|return true(1) if the list are equal, 0 otherwise
-|<font color="yellow">list_create_third_list</font>|List *third_list = list_create_third_list(first_list,second_list,sizeof(int),your_create_function)|Create a third list by scrolling through both **_first_list_** and **_second_list_**, pass the element of the **_first_** and **_second_** to the `your_create_function`. The element in the third list will be equal to the result of `your_create_function`
+|<font color="yellow">insert_front</font>|insert_front(list, elem)|inserts an element at the top of the list
+|<font color="yellow">insert_back</font>|insert_back(list, elem)|inserts an element at the tail of the list
+|<font color="yellow">insert_order</font>|insert_order(list, elem, compare_function)|inserts an element in order (with duplicate)
+|<font color="yellow">n_node</font>|n_node(elem, list)|create a new node 
+|<font color="yellow">top</font>|top(list)|return a pointer to the top element of the list
+|<font color="yellow">top_delete</font>|top_delete(list)|return a pointer to the top element of the list, **remember to free the memory returned by top_delete**
+|<font color="yellow">tail</font>|tail(list)|return a pointer to the tail element of the list
+|<font color="yellow">tail_delete</font>|tail_delete(list)|return a pointer to the tail element of the list. **remember to free the memory returned by tail_delete**
+|<font color="yellow">ldelete</font>|ldelete(list)|delete all element of the list
+|<font color="yellow">lprint</font>|lprint(list, your_print_function)|print the list
+|<font color="yellow">search_and_delete</font>|search_and_delete(list, elem, your_equal_function)|delete a specific item, and all its occurrences
+|<font color="yellow">list_copy</font>|list_copy(dest_list, source_list)|create a copy of the source_list in dest_list
+|<font color="yellow">lequal</font>|lequal(first_list, second_list, your_equal_function)|return true(1) if the list are equal, 0 otherwise
+|<font color="yellow">crt_third_list</font>|List *third_list = crt_third_list(sizeof(int), first_list, second_list, your_create_function)|Create a third list by scrolling through both **_first_list_** and **_second_list_**, pass the element of the **_first_** and **_second_** to the `your_create_function`. The element in the third list will be equal to the result of `your_create_function`
 
 **Function that you need to define:**
  * **compare** function, to use in insert_in_order
